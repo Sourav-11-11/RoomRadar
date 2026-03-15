@@ -1,0 +1,187 @@
+<% layout("/layouts/boilerplate") %>
+
+<div class="row mt-3">
+    <div class="col-8 offset-2">
+
+        <h3>Create a New PG Listing</h3>
+        <br />
+
+        <form method="POST" action="/listings" novalidate class="needs-validation" enctype="multipart/form-data">
+
+            <div class="mb-3">
+                <label for="title" class="form-label">Title:</label>
+                <input
+                    name="listing[title]"
+                    placeholder="Add a Catchy title"
+                    type="text"
+                    class="form-control"
+                    required
+                />
+                <div class="valid-feedback">
+                    Title Looks good!
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="description" class="form-label">Description:</label>
+                <textarea
+                    name="listing[description]"
+                    placeholder="enter description"
+                    rows="4"
+                    cols="50"
+                    class="form-control"
+                    required
+                ></textarea>
+                <div class="invalid-feedback">
+                    Please enter a short description.
+                </div>
+            </div>
+           
+            <div class="mb-3">
+                <label for="image" class="form-label">Upload Image</label>
+                <input
+                    name="listing[image]"
+                    type="file"
+                    class="form-control"
+                    required
+                />
+            </div>
+            <div class="row">
+
+                <div class="mb-3 col-md-4">
+                    <label for="price" class="form-label">Base Rent (per month):</label>
+                    <input
+                        name="listing[price]"
+                        placeholder="7000"
+                        type="number"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        Price should be valid
+                    </div>
+                </div>
+
+                <div class="mb-3 col-md-4">
+                    <label for="electricityCost" class="form-label">Electricity (per month):</label>
+                    <input
+                        name="listing[electricityCost]"
+                        placeholder="800"
+                        type="number"
+                        class="form-control"
+                        required
+                    />
+                </div>
+
+                <div class="mb-3 col-md-4">
+                    <label for="maintenanceCost" class="form-label">Maintenance (per month):</label>
+                    <input
+                        name="listing[maintenanceCost]"
+                        placeholder="500"
+                        type="number"
+                        class="form-control"
+                        required
+                    />
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="mb-3 col-md-4">
+                    <label for="depositAmount" class="form-label">Deposit Amount:</label>
+                    <input
+                        name="listing[depositAmount]"
+                        placeholder="10000"
+                        type="number"
+                        class="form-control"
+                        required
+                    />
+                </div>
+
+                <div class="mb-3 col-md-4">
+                    <label for="roomType" class="form-label">Room Type:</label>
+                    <select name="listing[roomType]" class="form-select" required>
+                        <option value="" selected disabled>Select type</option>
+                        <option value="single">Single</option>
+                        <option value="double">Double</option>
+                        <option value="triple">Triple</option>
+                    </select>
+                </div>
+
+                <div class="mb-3 col-md-4">
+                    <label for="genderPreference" class="form-label">Gender Preference:</label>
+                    <select name="listing[genderPreference]" class="form-select" required>
+                        <option value="" selected disabled>Select</option>
+                        <option value="boys">Boys</option>
+                        <option value="girls">Girls</option>
+                        <option value="unisex">Unisex</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="row align-items-center">
+                <div class="mb-3 col-md-4 form-check">
+                    <input class="form-check-input" type="checkbox" value="true" id="foodIncluded" name="listing[foodIncluded]">
+                    <label class="form-check-label" for="foodIncluded">Food Included</label>
+                </div>
+                <div class="mb-3 col-md-4 form-check">
+                    <input class="form-check-input" type="checkbox" value="true" id="wifiAvailable" name="listing[wifiAvailable]" checked>
+                    <label class="form-check-label" for="wifiAvailable">Wifi Available</label>
+                </div>
+            </div>
+
+            <div class="row">
+
+                <div class="mb-3 col-md-8">
+                    <label for="country" class="form-label">Country:</label>
+                    <input
+                        name="listing[country]"
+                        placeholder="India"
+                        type="text"
+                        class="form-control"
+                        required
+                    />
+                    <div class="invalid-feedback">
+                        Please enter a country.
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="mb-3">
+                <label for="location" class="form-label">Location:</label>
+                <input
+                    name="listing[location]"
+                    placeholder="enter location"
+                    type="text"
+                    class="form-control"
+                    required
+                />
+                <div class="invalid-feedback">
+                    Please enter a location.
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <label for="category" class="form-label">Category:</label>
+                <select name="listing[category]" id="category" class="form-select" required>
+                    <option value="" selected disabled>Select a category</option>
+                    <option value="trending">Trending</option>
+                    <option value="locations">Locations</option>
+                    <option value="mountains">Mountains</option>
+                    <option value="nature">Nature</option>
+                    <option value="camping">Camping</option>
+                    <option value="beachs">Beachs</option>
+                </select>
+                <div class="invalid-feedback">
+                    Please select a category.
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary add-btn">
+                Add
+            </button>
+            <br />      <br />
+        </form>
+    </div>
+</div>

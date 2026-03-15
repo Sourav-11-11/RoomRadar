@@ -1,0 +1,206 @@
+<% layout("/layouts/boilerplate") %>
+<script>
+  window.mapToken = "<%= process.env.MAPBOX_TOKEN %>";
+</script>
+<script id="listing-map-data" type="application/json"><%- JSON.stringify({
+  title: listing.title,
+  location: listing.location,
+  country: listing.country,
+  geometry: listing.geometry
+}) %></script>
+<div class="show-page">
+<div class="row mt-3 justify-content-center">
+  <div class="col-12 col-lg-8 px-2 px-lg-0">
+    <h3 class="mb-4 d-flex align-items-center justify-content-between">
+      <span><%= listing.title %></span>
+      <span class="badge bg-dark">Reality Score: <%= listing.realityScore ? listing.realityScore.toFixed(1) : "--" %>/5</span>
+    </h3>
+    <div class="card listing-card mb-4">
+      <img src="<%= listing.image.url %>" class="card-img-top show-img" alt="listing image" >
+      <div class="card-body p-4">
+        <p class="card-text mb-3"><strong>Hosted by:</strong> <%= listing.owner ? listing.owner.username : 'Unknown Host' %></p>
+        <p class="card-text mb-3"><strong>Description:</strong> <%= listing.description %></p>
+        <p class="card-text mb-4"><i class="fa-solid fa-location-dot text-danger me-2"></i><%= listing.location %><% if (listing.country) { %>, <%= listing.country %><% } %></p>
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <h6 class="text-uppercase text-muted">True Monthly Cost</h6>
+              <ul class="list-unstyled mb-2">
+                <li>Rent: &#8377; <%= listing.price?.toLocaleString('en-IN') || 0 %></li>
+                <li>Electricity: &#8377; <%= listing.electricityCost?.toLocaleString('en-IN') || 0 %></li>
+                <li>Maintenance: &#8377; <%= listing.maintenanceCost?.toLocaleString('en-IN') || 0 %></li>
+                <% if (!listing.foodIncluded) { %>
+                  <li>Food (est.): Included in true cost calc</li>
+                <% } else { %>
+                  <li>Food: Included</li>
+                <% } %>
+              </ul>
+              <div class="fw-bold fs-5">True Monthly Cost: &#8377; <%= (listing.trueMonthlyCost || listing.price || 0).toLocaleString('en-IN') %></div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="border rounded p-3 h-100">
+              <h6 class="text-uppercase text-muted">PG Information</h6>
+              <ul class="list-unstyled mb-0">
+                <li>Room Type: <strong><%= listing.roomType || 'single' %></strong></li>
+                <li>Food Included: <strong><%= listing.foodIncluded ? 'Yes' : 'No' %></strong></li>
+                <li>Wifi: <strong><%= listing.wifiAvailable ? 'Available' : 'Not available' %></strong></li>
+                <li>Gender Preference: <strong><%= listing.genderPreference || 'unisex' %></strong></li>
+                <li>Deposit: &#8377; <%= listing.depositAmount?.toLocaleString('en-IN') || 0 %></li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <% if (currentUser && listing.owner && currentUser._id.equals(listing.owner._id)) { %>
+           <span class="badge bg-success mt-4 mb-3">Your Listing - Owned by <%= listing.owner.username %></span>  
+        <div class="d-flex gap-2">
+          <a href="/listings/<%= listing._id %>/edit" class="btn btn-primary">Edit</a>
+          <form method="POST" action="/listings/<%=listing._id%>?_method=DELETE" style="display:inline;">
+            <button class="btn btn-danger">Delete</button>
+          </form>
+        </div>
+        <% } %>
+
+      </div>
+    </div>
+    
+    <!-- Add Review Section -->
+    <div class="mb-5">
+      <hr class="my-4">
+      <div class="card border-0 shadow-sm p-4" style="background: #fafafa;">
+        <h4 class="mb-4 fw-semibold">Share Your Experience</h4>
+        <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
+          <div class="row g-3">
+            <div class="col-md-6">
+              <label class="form-label">Food Quality</label>
+              <select class="form-select" name="review[foodQuality]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Cleanliness</label>
+              <select class="form-select" name="review[cleanliness]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">WiFi</label>
+              <select class="form-select" name="review[wifi]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Noise</label>
+              <select class="form-select" name="review[noise]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Safety</label>
+              <select class="form-select" name="review[safety]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label">Owner Behavior</label>
+              <select class="form-select" name="review[ownerBehavior]" required>
+                <option value="">Select</option>
+                <% for(let i=1;i<=5;i++){ %>
+                  <option value="<%= i %>"><%= i %> ★</option>
+                <% } %>
+              </select>
+            </div>
+          </div>
+
+          <div class="mb-4 mt-3">
+            <label for="comments" class="form-label fw-semibold mb-2" style="font-size: 1.05rem;">Tell us about your stay</label>
+            <textarea name="review[comment]" id="comments" class="form-control" cols="30" rows="5" required placeholder="Share your experience..." style="font-size: 1rem; border-radius: 8px;"></textarea>
+            <div class="invalid-feedback">Please add some comments for the review.</div>
+          </div>
+          <button class="btn btn-dark rounded-pill px-4 py-2" style="font-weight: 500;">Submit Review</button>
+        </form>
+      </div>
+
+      <!-- Reviews Display Section -->
+      
+      <div class="mb-5 mt-4">
+        <hr class="my-4">
+        <h4 class="mt-0 mb-4">Reviews <span class="badge bg-dark rounded-pill"><%= listing.reviews.length %></span></h4>
+        <% if (listing.reviews.length === 0) { %>
+          <p class="text-muted fst-italic">No reviews yet. Be the first to review this listing!</p>
+        <% } else { %>
+          <div class="row mt-4">
+            <% for(let review of listing.reviews) { %>
+              <div class="col-md-6 mb-4">
+                <div class="card h-100 border-0 shadow-sm">
+                  <div class="card-body p-4">
+                    <div class="d-flex align-items-center mb-3">
+                      <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-size: 1.1rem; font-weight: 600;">
+                        <%= review.author ? review.author.username.charAt(0).toUpperCase() : "?" %>
+                      </div>
+                      <div class="flex-grow-1">
+                        <h6 class="mb-0 fw-semibold"><%= review.author ? review.author.username : "Anonymous User" %></h6>
+                        <% if (review.createdAt) { %>
+                          <small class="text-muted"><%= new Date(review.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) %></small>
+                        <% } %>
+                      </div>
+                      <% if (currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
+                        <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" style="display:inline;">
+                          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">Delete</button>
+                        </form>
+                      <% } %>
+                    </div>
+                    <div class="d-flex flex-wrap gap-2 mb-2 small">
+                      <span class="badge bg-light text-dark">Food: <%= review.foodQuality || '-' %></span>
+                      <span class="badge bg-light text-dark">Cleanliness: <%= review.cleanliness || '-' %></span>
+                      <span class="badge bg-light text-dark">WiFi: <%= review.wifi || '-' %></span>
+                      <span class="badge bg-light text-dark">Noise: <%= review.noise || '-' %></span>
+                      <span class="badge bg-light text-dark">Safety: <%= review.safety || '-' %></span>
+                      <span class="badge bg-light text-dark">Owner: <%= review.ownerBehavior || '-' %></span>
+                    </div>
+                    <p class="card-text mb-0" style="font-size: 1rem; line-height: 1.7; color: #484848;"><%= review.comment %></p>
+                  </div>
+                </div>
+              </div>
+            <% } %>
+          </div>
+        <% } %>
+      </div>
+      
+    </div>
+  </div>
+</div>
+
+<div class="mb-5">
+  <div class="row mt-2 justify-content-center">
+    <div class="col-12 col-lg-8 px-2 px-lg-0">
+      <hr class="my-4">
+      <h3 class="mb-3">Where you'll be staying</h3>
+      <div class="card border-0 shadow-sm map-wrapper">
+        <div id="map" class="map-box"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+</div>
+
+<script src="/js/map.js"></script>
+

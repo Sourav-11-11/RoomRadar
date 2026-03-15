@@ -1,0 +1,105 @@
+<nav class="navbar navbar-expand-md bg-body-light border-bottom sticky-top">
+  <div class="container-fluid d-flex align-items-center">
+    <a class="navbar-brand d-flex align-items-center gap-3" href="/listings">
+      <i class="fa-regular fa-compass"></i>
+      <span>RoomRadar</span>
+    </a>
+    <button 
+        class="navbar-toggler" 
+        type="button" 
+        data-bs-toggle="collapse" 
+        data-bs-target="#navbarNavAltMarkup" 
+        aria-label="Toggle search and menu"
+    >
+      <i class="fa-solid fa-magnifying-glass"></i>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <!-- Search Bar -->
+      <div class="airbnb-search-container">
+        <% if (!currentUser) { %>
+          <!-- Basic search (guests logged out) -->
+          <form action="/listings" method="GET" class="airbnb-search-form guest-search-form">
+            <div class="search-input-group">
+              <div class="search-item where-section">
+                <input 
+                  type="text" 
+                  id="search-where" 
+                  name="q" 
+                  placeholder="Search by name or location" 
+                  class="search-input"
+                  value="<%= searchTerm || '' %>"
+                  aria-label="Search destinations"
+                />
+              </div>
+              <button type="submit" class="search-button" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </form>
+        <% } else { %>
+          <!-- Detailed search (logged in) -->
+          <form action="/listings" method="GET" class="airbnb-search-form auth-search-form">
+            <div class="search-input-group">
+              <div class="search-item where-section">
+                <input 
+                  type="text" 
+                  id="search-where" 
+                  name="q" 
+                  placeholder="Search by name or location" 
+                  class="search-input"
+                  value="<%= searchTerm || '' %>"
+                  aria-label="Search destinations"
+                />
+              </div>
+              <div class="search-item">
+                <input
+                  type="date"
+                  name="checkin"
+                  class="search-input"
+                  aria-label="Check-in date"
+                  placeholder="Check-in"
+                />
+              </div>
+              <div class="search-item">
+                <input
+                  type="date"
+                  name="checkout"
+                  class="search-input"
+                  aria-label="Check-out date"
+                  placeholder="Check-out"
+                />
+              </div>
+              <div class="search-item" style="max-width: 140px;">
+                <input
+                  type="number"
+                  min="1"
+                  name="guests"
+                  class="search-input"
+                  aria-label="Number of guests"
+                  placeholder="Guests"
+                />
+              </div>
+              <button type="submit" class="search-button" aria-label="Search">
+                <i class="fa-solid fa-magnifying-glass"></i>
+              </button>
+            </div>
+          </form>
+        <% } %>
+      </div>
+      
+      <div class="navbar-nav ms-auto align-items-center gap-2">
+        <a class="btn btn-host" href="/listings/new" title="Become a Host">
+          Become a Host
+        </a>
+        <% if (!currentUser) { %>
+        <a class="nav-link"  href="/signup"><b>Signup</b></a>
+        <a class="nav-link" href="/login"><b>Login</b></a>
+        <% } else { %>
+        <a class="nav-link d-flex align-items-center" href="/logout" title="Logout">
+          <i class="fa-solid fa-arrow-right-from-bracket"></i>
+        </a>
+        <% } %>
+      </div>
+    </div>
+  </div>
+</nav>
