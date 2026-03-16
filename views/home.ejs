@@ -1,0 +1,139 @@
+<% layout("/layouts/boilerplate") %>
+<div class="home-wrapper">
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">Find a PG you'll actually <span>survive</span> in.</h1>
+            <p class="hero-tagline">Real reviews. Real costs. No surprises.</p>
+            
+            <div class="search-card">
+                <form action="/listings" method="GET" class="home-search-form">
+                    <div class="search-input-wrap">
+                        <label>City</label>
+                        <input type="text" name="location" placeholder="e.g. Hyderabad" class="form-control-custom">
+                    </div>
+                    <div class="search-divider"></div>
+                    <div class="search-input-wrap">
+                        <label>Budget</label>
+                        <select name="filter" class="form-control-custom">
+                            <option value="all">Any</option>
+                            <option value="low-budget">Under ₹8K/month</option>
+                            <option value="mid-range">₹8K - ₹15K/month</option>
+                            <option value="premium-pg">Above ₹15K/month</option>
+                        </select>
+                    </div>
+                    <div class="search-input-wrap">
+                        <label>Room Type</label>
+                        <select name="roomType" class="form-control-custom">
+                            <option value="">Any</option>
+                            <option value="single">Single</option>
+                            <option value="double">Double Sharing</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-search-primary">
+                        <i class="fa-solid fa-magnifying-glass"></i> Search
+                    </button>
+                </form>
+
+                <div class="quick-filters mt-3">
+                    <span class="text-muted small fw-bold me-2">QUICK SEARCH:</span>
+                    <a href="/listings?filter=low-budget" class="quick-pill">Low Budget</a>
+                    <a href="/listings?filter=food-included" class="quick-pill">Food Included</a>
+                    <a href="/listings?filter=wifi-available" class="quick-pill">WiFi</a>
+                    <a href="/listings?filter=girls-pg" class="quick-pill">Girls PG</a>
+                    <a href="/listings?filter=boys-pg" class="quick-pill">Boys PG</a>
+                    <a href="/listings" class="quick-pill" style="background: var(--accent-primary); color: white; font-weight: 600;">→ Explore All</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- City Discovery -->
+    <section class="city-section">
+        <div class="container-fluid px-sm-5">
+            <div class="section-header text-center mb-5">
+                <h2 class="section-title">Explore Top Hubs</h2>
+                <p class="text-muted">Find exactly what you need in the best student cities.</p>
+            </div>
+            
+            <div class="city-grid">
+                <!-- City Cards -->
+                <a href="/listings?q=Hyderabad" class="city-card">
+                    <img src="https://images.unsplash.com/photo-1596521146913-a2d1f3015bc2?auto=format&fit=crop&w=600&q=80" alt="Hyderabad">
+                    <div class="city-info">
+                        <h4>Hyderabad</h4>
+                        <p>Tech Hubs & Coaching</p>
+                    </div>
+                </a>
+                <a href="/listings?q=Bangalore" class="city-card">
+                    <img src="https://images.unsplash.com/photo-1569163139394-de4798aa62b8?auto=format&fit=crop&w=600&q=80" alt="Bangalore">
+                    <div class="city-info">
+                        <h4>Bangalore</h4>
+                        <p>Startup Capitals</p>
+                    </div>
+                </a>
+                <a href="/listings?q=Pune" class="city-card">
+                    <img src="https://images.unsplash.com/photo-1596521146913-a2d1f3015bc2?auto=format&fit=crop&w=600&q=80" alt="Pune">
+                    <div class="city-info">
+                        <h4>Pune</h4>
+                        <p>Student Friendly</p>
+                    </div>
+                </a>
+                <a href="/listings?q=Delhi" class="city-card">
+                    <img src="https://images.unsplash.com/photo-1559827260-dc66d52bef19?auto=format&fit=crop&w=600&q=80" alt="Delhi">
+                    <div class="city-info">
+                        <h4>Delhi</h4>
+                        <p>North & South Campus</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reality Score -->
+    <section class="reality-section">
+        <div class="container-fluid px-sm-5">
+            <div class="row align-items-center">
+                <div class="col-lg-5 mb-4 mb-lg-0 text-center text-lg-start">
+                    <h2 class="section-title">The Reality Score</h2>
+                    <p class="section-desc">We don't trust heavily filtered photos. Our community rates PGs based on real conditions, hidden costs, and actual food quality.</p>
+                    <a href="/listings" class="btn-outline-custom mt-3">See Top Rated PGs</a>
+                </div>
+                <div class="col-lg-7">
+                    <div class="score-cards-wrapper staggered-fade-in">
+                        <div class="score-card excellent">
+                            <div class="score-badge">92</div>
+                            <div class="score-details">
+                                <h5>Great PG</h5>
+                                <p>Matches photos. Good food.</p>
+                            </div>
+                        </div>
+                        <div class="score-card average">
+                            <div class="score-badge">68</div>
+                            <div class="score-details">
+                                <h5>Average</h5>
+                                <p>Slow WiFi. Okay maintenance.</p>
+                            </div>
+                        </div>
+                        <div class="score-card poor">
+                            <div class="score-badge">45</div>
+                            <div class="score-details">
+                                <h5>Avoid</h5>
+                                <p>Hidden charges. Water issues.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section text-center">
+        <div class="cta-content">
+            <h2>Stop guessing. Start comparing.</h2>
+            <p>Join thousands of students finding their perfect basecamp.</p>
+            <a href="/listings" class="btn-primary-large">Browse All PGs</a>
+        </div>
+    </section>
+</div>
