@@ -181,7 +181,42 @@ NODE_ENV=development
 
 ---
 
-## 🗺️ How Key Features Work
+## � Screenshots & Features in Action
+
+<table>
+  <tr>
+    <td width="50%"><b>🏠 Homepage</b></td>
+    <td width="50%"><b>📋 Browse All Listings</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/images/home.png" width="100%"/></td>
+    <td><img src="public/images/Listings.png" width="100%"/></td>
+  </tr>
+  <tr>
+    <td colspan="2"><hr></td>
+  </tr>
+  <tr>
+    <td width="50%"><b>➕ Create New Listing</b></td>
+    <td width="50%"><b>🗺️ View Details & Map</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/images/Become a Host - Create new Listing.png" width="100%"/></td>
+    <td><img src="public/images/review & maps.png" width="100%"/></td>
+  </tr>
+  <tr>
+    <td colspan="2"><hr></td>
+  </tr>
+  <tr>
+    <td colspan="2"><b>⭐ Reviews & Ratings</b></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
+  </tr>
+</table>
+
+---
+
+## �🗺️ How Key Features Work
 
 ### 📍 Geocoding & Maps Pipeline
 1. User creates/edits a PG listing with location string (e.g., "HITEC City, Hyderabad")
@@ -222,21 +257,6 @@ This transparency helps users compare actual monthly expenses across PGs.
 
 ---
 
-## 📸 Screenshots
-
-| Homepage | Browse Listings |
-|---|---|
-| ![Home](public/images/home.png) | ![Listings](public/images/Listings.png) |
-
-| Create New Listing | View Details & Map |
-|---|---|
-| ![Create](public/images/Become%20a%20Host%20-%20Create%20new%20Listing.png) | ![Details](public/images/review%20&%20maps.png) |
-
-| Reviews & Ratings |
-|---|
-| ![Reviews](public/images/Details%20&%20write%20Reveiw.png) |
-
----
 
 | View | Feature |
 |---|---|
