@@ -222,7 +222,21 @@ This transparency helps users compare actual monthly expenses across PGs.
 
 ---
 
-## 🎨 UI/UX Highlights
+## 📸 Screenshots
+
+| Homepage | Browse Listings |
+|---|---|
+| ![Home](public/images/home.png) | ![Listings](public/images/Listings.png) |
+
+| Create New Listing | View Details & Map |
+|---|---|
+| ![Create](public/images/Become%20a%20Host%20-%20Create%20new%20Listing.png) | ![Details](public/images/review%20&%20maps.png) |
+
+| Reviews & Ratings |
+|---|
+| ![Reviews](public/images/Details%20&%20write%20Reveiw.png) |
+
+---
 
 | View | Feature |
 |---|---|
