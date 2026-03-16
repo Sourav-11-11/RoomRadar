@@ -1,13 +1,13 @@
 ═══════════════════════════════════════════════════════════════════════════════
-                     SWEET STAYS - PROJECT NOTES (HANDWRITTEN STYLE)
+                     ROOM RADAR - PROJECT NOTES (HANDWRITTEN STYLE)
 ═══════════════════════════════════════════════════════════════════════════════
 
 📋 ARCHITECTURE OVERVIEW
 ─────────────────────────────────────────────────────────────────────────────────
 
   ┌─────────────────────────────────────────────────────────────────────────┐
-  │                         SWEET STAYS WEB APP                             │
-  │                     (Airbnb-style Rental Platform)                      │
+  │                           ROOM RADAR WEB APP                            │
+  │                     (PG Finder & Rental Platform)                       │
   └─────────────────────────────────────────────────────────────────────────┘
 
                            Frontend (EJS Views)
