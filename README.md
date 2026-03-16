@@ -185,32 +185,41 @@ NODE_ENV=development
 
 <table>
   <tr>
-    <td width="50%"><b>🏠 Homepage</b></td>
+    <td colspan="2"><b>🏠 Homepage - Landing Page</b></td>
+  </tr>
+  <tr>
+    <td colspan="2"><img src="public/images/home.png" width="100%"/></td>
+  </tr>
+  <tr>
+    <td colspan="2"><hr></td>
+  </tr>
+  <tr>
     <td width="50%"><b>📋 Browse All Listings</b></td>
-  </tr>
-  <tr>
-    <td><img src="public/images/home.png" width="100%"/></td>
-    <td><img src="public/images/Listings.png" width="100%"/></td>
-  </tr>
-  <tr>
-    <td colspan="2"><hr></td>
-  </tr>
-  <tr>
     <td width="50%"><b>➕ Create New Listing</b></td>
-    <td width="50%"><b>🗺️ View Details & Map</b></td>
   </tr>
   <tr>
+    <td><img src="public/images/Listings.png" width="100%"/></td>
     <td><img src="public/images/Become a Host - Create new Listing.png" width="100%"/></td>
-    <td><img src="public/images/review & maps.png" width="100%"/></td>
   </tr>
   <tr>
     <td colspan="2"><hr></td>
   </tr>
   <tr>
-    <td colspan="2"><b>⭐ Reviews & Ratings</b></td>
+    <td width="50%"><b>🗺️ View Details & Map</b></td>
+    <td width="50%"><b>⭐ Reviews & Ratings</b></td>
   </tr>
   <tr>
-    <td colspan="2"><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
+    <td><img src="public/images/review & maps.png" width="100%"/></td>
+    <td><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
+  </tr>
+</table>
+  <tr>
+    <td width="50%"><b>🗺️ View Details & Map</b></td>
+    <td width="50%"><b>⭐ Reviews & Ratings</b></td>
+  </tr>
+  <tr>
+    <td><img src="public/images/review & maps.png" width="100%"/></td>
+    <td><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
   </tr>
 </table>
 
