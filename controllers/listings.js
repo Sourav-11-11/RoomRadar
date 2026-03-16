@@ -5,60 +5,152 @@ const { computeTrueMonthlyCost } = require("../utils/roomRadarMetrics.js");
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-const FILTER_OPTIONS = [
-  "trending",
-  "locations",
-  "top-rated",
-  "budget",
-  "mountains",
-  "nature",
-  "camping",
-  "beachs"
-];
+// PG-specific filter configuration mapped to Mongo query fragments and optional sorts.
+const FILTER_OPTIONS = {
+  // Budget filters (based on true monthly cost = rent + electricity + maintenance)
+  "low-budget": { query: { trueMonthlyCost: { $gte: 0, $lt: 8000 } }, sort: { trueMonthlyCost: 1 }, category: "budget" },
+  "mid-range": { query: { trueMonthlyCost: { $gte: 8000, $lte: 15000 } }, sort: { trueMonthlyCost: 1 }, category: "budget" },
+  "premium-pg": { query: { trueMonthlyCost: { $gt: 15000 } }, sort: { trueMonthlyCost: 1 }, category: "budget" },
+  
+  // Gender preference filters
+  "boys-pg": { query: { genderPreference: "boys" }, category: "gender" },
+  "girls-pg": { query: { genderPreference: "girls" }, category: "gender" },
+  "unisex-pg": { query: { genderPreference: "unisex" }, category: "gender" },
+  "co-living": { query: { $or: [{ genderPreference: "unisex" }, { roomType: "triple" }] }, category: "gender" },
+  
+  // Amenity filters
+  "food-included": { query: { foodIncluded: true }, category: "amenity" },
+  "wifi-available": { query: { wifiAvailable: true }, category: "amenity" },
+  
+  // Room type filters
+  "single-room": { query: { roomType: "single" }, category: "roomType" },
+  "double-sharing": { query: { roomType: "double" }, category: "roomType" },
+  "triple-sharing": { query: { roomType: "triple" }, category: "roomType" },
+  
+  // Rating filter
+  "top-rated": { query: { realityScore: { $gte: 4 } }, sort: { realityScore: -1 }, category: "rating" },
+  
+  // Location filter
+  "near-it-hubs": {
+    query: {
+      location: {
+        $in: [
+          "HITEC City, Hyderabad",
+          "Madhapur, Hyderabad",
+          "Gachibowli / Nanakramguda, Hyderabad",
+          "Kondapur, Hyderabad",
+          "Financial District, Hyderabad",
+          "Kukatpally JNTU, Hyderabad"
+        ]
+      }
+    },
+    category: "location"
+  }
+};
+
+// Filter categories to prevent multiple selection from same category
+const FILTER_CATEGORIES = {
+  budget: ["low-budget", "mid-range", "premium-pg"],
+  gender: ["boys-pg", "girls-pg", "unisex-pg", "co-living"],
+  roomType: ["single-room", "double-sharing", "triple-sharing"],
+  rating: ["top-rated"],
+  amenity: ["food-included", "wifi-available"],
+  location: ["near-it-hubs"]
+};
 
 module.exports.index = async (req, res) => {
-  const requestedFilter = req.query.filter || "all";
-  const selectedLocation = (req.query.location || "").trim();
   const searchTerm = (req.query.q || "").trim();
-  let activeFilter = requestedFilter;
+  const sortBy = req.query.sort || "";
+  
+  // Support both single filter (legacy) and multiple filters (new)
+  let selectedFilters = [];
+  if (req.query.filters) {
+    // Multiple filters: ?filters=boys-pg,top-rated,mid-range
+    selectedFilters = req.query.filters.split(",").map(f => f.trim()).filter(f => FILTER_OPTIONS[f]);
+  } else if (req.query.filter && req.query.filter !== "all") {
+    // Single filter (legacy): ?filter=boys-pg
+    selectedFilters = [req.query.filter];
+  }
 
   const queryClauses = [];
 
   // Match title or location when a search term is provided
   if (searchTerm) {
     const regex = new RegExp(searchTerm, "i");
-    queryClauses.push({ $or: [{ title: regex }, { location: regex }] });
-    activeFilter = "all"; // search overrides pill filters for clarity
+    const searchQueries = [];
+    
+    // Search in title (higher priority)
+    searchQueries.push({ title: regex });
+    
+    // Search in location
+    searchQueries.push({ location: regex });
+    
+    // Search in description
+    searchQueries.push({ description: regex });
+    
+    // Search for specific amenities if keywords match
+    if (searchTerm.toLowerCase().includes("food")) {
+      searchQueries.push({ foodIncluded: true });
+    }
+    if (searchTerm.toLowerCase().includes("wifi")) {
+      searchQueries.push({ wifiAvailable: true });
+    }
+    
+    queryClauses.push({ $or: searchQueries });
   }
 
-  // Category/location filter pills remain compatible with search
-  if (requestedFilter === "locations") {
-    if (selectedLocation) {
-      queryClauses.push({ location: selectedLocation });
-    }
-  } else if (requestedFilter !== "all" && FILTER_OPTIONS.includes(requestedFilter)) {
-    queryClauses.push({ category: requestedFilter });
-  } else if (!searchTerm) {
-    activeFilter = "all";
+  // Apply selected filters using $and to combine all conditions
+  if (selectedFilters.length > 0) {
+    selectedFilters.forEach(filter => {
+      const filterConfig = FILTER_OPTIONS[filter];
+      if (filterConfig && filterConfig.query) {
+        queryClauses.push(filterConfig.query);
+      }
+    });
   }
 
   const mongoQuery = queryClauses.length ? { $and: queryClauses } : {};
 
+  // Determine sort clause
+  let sortClause = { _id: 1 };
+  if (sortBy === "price_asc") sortClause = { price: 1 };
+  else if (sortBy === "price_desc") sortClause = { price: -1 };
+  else if (sortBy === "highest_rated") sortClause = { realityScore: -1 };
+  else if (sortBy === "newest") sortClause = { _id: -1 };
+  else if (selectedFilters.length > 0) {
+    // Use sort from the first filter if available
+    const firstFilter = FILTER_OPTIONS[selectedFilters[0]];
+    if (firstFilter?.sort) sortClause = firstFilter.sort;
+  }
+
   const [allListings, availableLocations] = await Promise.all([
     Listing.find(mongoQuery)
-      .select("title description price image _id category location trueMonthlyCost realityScore roomType genderPreference wifiAvailable foodIncluded")
+      .select("title description price image _id category location trueMonthlyCost realityScore roomType genderPreference wifiAvailable foodIncluded electricityCost maintenanceCost depositAmount")
+      .sort(sortClause)
       .lean(),
     Listing.distinct("location")
   ]);
 
   availableLocations.sort((a, b) => a.localeCompare(b));
 
+  // AJAX Support: If the request asks for JSON (e.g. from frontend fetch), return raw data
+  // This allows for dynamic filtering without page reloads
+  if (req.xhr || req.headers.accept.indexOf('json') > -1) {
+    return res.json({ 
+      listings: allListings, 
+      count: allListings.length,
+      locations: availableLocations 
+    });
+  }
+
   res.render("listings/index", {
     allListings,
-    activeFilter,
+    selectedFilters,
     availableLocations,
-    selectedLocation,
     searchTerm,
+    sortBy,
+    filterOptions: FILTER_OPTIONS,
+    filterCategories: FILTER_CATEGORIES,
     showTax: false
   });
 };

@@ -98,19 +98,39 @@ const listingSchema = new mongoose.Schema({
 
     owner: {
         type: Schema.Types.ObjectId,
-        ref: "User"
+        ref: "User",
     },
+    
+    // Geometry for map location
     geometry: {
         type: {
             type: String, 
-            enum: ['Point'],
+            enum: ['Point'], 
+            required: true,
             default: 'Point'
         },
         coordinates: {
             type: [Number],
-            default: [78.4772, 17.4065]
+            required: true,
+            default: [78.4867, 17.3850] // Default to Hyderabad
         }
     }
+});
+
+// Create indexes for high-performance filtering and search
+listingSchema.index({ title: 'text', description: 'text', location: 'text' }); // Full-text search
+listingSchema.index({ trueMonthlyCost: 1 }); // Budget filtering
+listingSchema.index({ realityScore: -1 }); // Top-rated sorting
+listingSchema.index({ genderPreference: 1, roomType: 1 }); // Compound index for common filters
+listingSchema.index({ geometry: '2dsphere' }); // Geo-spatial queries
+
+// Virtual for formatted price
+listingSchema.virtual('formattedPrice').get(function() {
+    return this.trueMonthlyCost.toLocaleString('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        maximumFractionDigits: 0
+    });
 });
 
 listingSchema.post("findOneAndDelete", async function(listings) {
