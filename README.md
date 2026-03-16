@@ -213,15 +213,7 @@ NODE_ENV=development
     <td><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
   </tr>
 </table>
-  <tr>
-    <td width="50%"><b>🗺️ View Details & Map</b></td>
-    <td width="50%"><b>⭐ Reviews & Ratings</b></td>
-  </tr>
-  <tr>
-    <td><img src="public/images/review & maps.png" width="100%"/></td>
-    <td><img src="public/images/Details & write Reveiw.png" width="100%"/></td>
-  </tr>
-</table>
+  
 
 ---
 
