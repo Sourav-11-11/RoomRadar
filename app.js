@@ -70,12 +70,8 @@ const sessionOptions = {
 
 
 // app.get("/", (req, res) => {
-//     res.send("Hi, I am root");
+//   res.redirect("/listings");
 // });
-
-app.get("/", (req, res) => {
-  res.redirect("/listings");
-});
 
 app.use(session(sessionOptions));
 
@@ -108,6 +104,10 @@ app.use((req, res, next) => {
 // });
 
 //routes 
+app.get("/", (req, res) => {
+    res.render("home");
+});
+
 app.use("/listings", listingRouter);
 app.use("/listings/:id/reviews", reviewRouter);
 app.use("/", userRouter);
@@ -125,7 +125,7 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { statusCode, message });
 });
 
-app.listen(8080, () => {
-    console.log("Server is running on port 8080")
+app.listen(5555, () => {
+    console.log("Server is running on port 5555")
 });
 

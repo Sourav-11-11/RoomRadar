@@ -10,7 +10,7 @@ cloudinary.config({
 const storage = new CloudinaryStorage({
   cloudinary,
   params: {
-    folder: "SweetStays_DEV",
+    folder: "RoomRadar_DEV",
     allowed_formats: ["jpg", "png", "jpeg"],
   },
 });
