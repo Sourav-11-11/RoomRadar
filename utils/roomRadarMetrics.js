@@ -1,5 +1,3 @@
-// RoomRadar metric helpers to keep controllers lean and consistent.
-
 const CATEGORY_KEYS = [
   "foodQuality",
   "cleanliness",
@@ -9,7 +7,6 @@ const CATEGORY_KEYS = [
   "ownerBehavior"
 ];
 
-// Conservative monthly food estimate (INR) when food is not included.
 const DEFAULT_ESTIMATED_FOOD_COST = 3000;
 
 function toNumber(value) {
@@ -32,7 +29,6 @@ function computeTrueMonthlyCost({
   return Math.max(0, Math.round(total));
 }
 
-// Average available category scores on a review. Falls back to legacy rating if no categories present.
 function computeReviewComposite(review) {
   const scores = CATEGORY_KEYS
     .map((key) => toNumber(review[key]))
@@ -47,8 +43,6 @@ function computeReviewComposite(review) {
   return Number((sum / scores.length).toFixed(2));
 }
 
-// Reality score combines average composite rating with a lightweight review-count weight.
-// Weighting: 85% average rating, 15% review volume signal (capped at 20 reviews).
 function computeRealityScore(reviews = []) {
   if (!reviews || !reviews.length) {
     return { score: 0, reviewCount: 0, average: 0 };
@@ -64,7 +58,7 @@ function computeRealityScore(reviews = []) {
   }
 
   const average = composites.reduce((a, b) => a + b, 0) / reviewCount;
-  const volumeWeight = Math.min(reviewCount / 20, 1); // 0..1 capped at 20 reviews
+  const volumeWeight = Math.min(reviewCount / 20, 1);
   const score = Number(((average * 0.85) + (volumeWeight * 5 * 0.15)).toFixed(2));
 
   return { score, reviewCount, average: Number(average.toFixed(2)) };

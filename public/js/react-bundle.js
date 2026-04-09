@@ -21462,9 +21462,11 @@
         const [budgetFilter, setBudgetFilter] = (0, import_react.useState)("all");
         const [roomTypeFilter, setRoomTypeFilter] = (0, import_react.useState)("all");
         const [isTyping, setIsTyping] = (0, import_react.useState)(false);
+        const [visibleCount, setVisibleCount] = (0, import_react.useState)(12);
         (0, import_react.useEffect)(() => {
           setIsTyping(true);
           const timer = setTimeout(() => setIsTyping(false), 250);
+          setVisibleCount(12);
           return () => clearTimeout(timer);
         }, [searchTerm, budgetFilter, roomTypeFilter]);
         let filteredListings = initialListings;
@@ -21488,7 +21490,9 @@
           setSearchTerm("");
           setBudgetFilter("all");
           setRoomTypeFilter("all");
+          setVisibleCount(12);
         };
+        const displayedListings = filteredListings.slice(0, visibleCount);
         return /* @__PURE__ */ import_react.default.createElement("div", { className: "container mt-4 mb-5" }, /* @__PURE__ */ import_react.default.createElement(
           "div",
           {
@@ -21542,7 +21546,7 @@
             },
             filteredListings.length
           )))
-        ), /* @__PURE__ */ import_react.default.createElement("div", { style: { transition: "opacity 0.2s", opacity: isTyping ? 0.4 : 1 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4" }, filteredListings.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "col-12 py-5 text-center d-flex flex-column align-items-center justify-content-center", style: { minHeight: "40vh" } }, /* @__PURE__ */ import_react.default.createElement(
+        ), /* @__PURE__ */ import_react.default.createElement("div", { style: { transition: "opacity 0.2s", opacity: isTyping ? 0.4 : 1 } }, /* @__PURE__ */ import_react.default.createElement("div", { className: "row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4" }, displayedListings.length === 0 ? /* @__PURE__ */ import_react.default.createElement("div", { className: "col-12 py-5 text-center d-flex flex-column align-items-center justify-content-center", style: { minHeight: "40vh" } }, /* @__PURE__ */ import_react.default.createElement(
           "div",
           {
             className: "d-flex align-items-center justify-content-center rounded-circle mb-4 shadow-sm",
@@ -21557,7 +21561,7 @@
             style: { fontWeight: 500 }
           },
           "Clear Filters"
-        )) : filteredListings.map((listing) => /* @__PURE__ */ import_react.default.createElement("div", { className: "col", key: listing._id }, /* @__PURE__ */ import_react.default.createElement("a", { href: `/listings/${listing._id}`, className: "text-decoration-none d-block h-100" }, /* @__PURE__ */ import_react.default.createElement(
+        )) : displayedListings.map((listing) => /* @__PURE__ */ import_react.default.createElement("div", { className: "col", key: listing._id }, /* @__PURE__ */ import_react.default.createElement("a", { href: `/listings/${listing._id}`, className: "text-decoration-none d-block h-100" }, /* @__PURE__ */ import_react.default.createElement(
           "div",
           {
             className: "card h-100 border-0 bg-white",
@@ -21601,7 +21605,24 @@
             listing.realityScore > 0 ? Math.round(listing.realityScore * 20) : "NR"
           )),
           /* @__PURE__ */ import_react.default.createElement("div", { className: "card-body p-4 pt-3 d-flex flex-column" }, /* @__PURE__ */ import_react.default.createElement("div", { className: "d-flex justify-content-between align-items-start mb-2" }, /* @__PURE__ */ import_react.default.createElement("h5", { className: "card-title fw-bold text-truncate text-dark mb-0 pe-2", style: { fontSize: "1.2rem" } }, listing.title)), /* @__PURE__ */ import_react.default.createElement("p", { className: "card-text text-muted small mb-3" }, /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-location-dot me-1" }), " ", listing.location), /* @__PURE__ */ import_react.default.createElement("div", { className: "mt-auto pt-3 border-top d-flex justify-content-between align-items-center" }, /* @__PURE__ */ import_react.default.createElement("div", null, /* @__PURE__ */ import_react.default.createElement("span", { className: "text-muted small d-block", style: { fontSize: "0.75rem" } }, "Base Rent"), /* @__PURE__ */ import_react.default.createElement("span", { className: "fw-semibold text-dark" }, "\u20B9 ", listing.price?.toLocaleString("en-IN"))), /* @__PURE__ */ import_react.default.createElement("div", { className: "text-end" }, /* @__PURE__ */ import_react.default.createElement("span", { className: "fw-bold d-block text-uppercase", style: { fontSize: "0.70rem", color: "#f59e0b", letterSpacing: "0.5px" } }, "True Cost"), /* @__PURE__ */ import_react.default.createElement("span", { className: "fw-bold text-dark", style: { fontSize: "1.15rem" } }, "\u20B9 ", (listing.trueMonthlyCost || listing.price).toLocaleString("en-IN")))))
-        )))))));
+        ))))), visibleCount < filteredListings.length && /* @__PURE__ */ import_react.default.createElement("div", { className: "text-center mt-5" }, /* @__PURE__ */ import_react.default.createElement(
+          "button",
+          {
+            className: "btn btn-outline-dark rounded-pill px-5 py-2 fw-bold shadow-sm",
+            onClick: () => setVisibleCount((prev) => prev + 12),
+            style: { transition: "all 0.2s", border: "2px solid #0f172a" },
+            onMouseEnter: (e) => {
+              e.target.style.backgroundColor = "#0f172a";
+              e.target.style.color = "#fff";
+            },
+            onMouseLeave: (e) => {
+              e.target.style.backgroundColor = "transparent";
+              e.target.style.color = "#0f172a";
+            }
+          },
+          "Load More Rooms ",
+          /* @__PURE__ */ import_react.default.createElement("i", { className: "fa-solid fa-angle-down ms-2" })
+        ), /* @__PURE__ */ import_react.default.createElement("p", { className: "text-muted mt-3 small" }, "Showing ", displayedListings.length, " of ", filteredListings.length, " rooms"))));
       };
       ListingsFilterGrid_default = ListingsFilterGrid;
     }

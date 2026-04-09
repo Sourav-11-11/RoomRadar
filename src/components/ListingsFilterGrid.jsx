@@ -5,11 +5,13 @@ const ListingsFilterGrid = ({ initialListings }) => {
   const [budgetFilter, setBudgetFilter] = useState('all');
   const [roomTypeFilter, setRoomTypeFilter] = useState('all');
   const [isTyping, setIsTyping] = useState(false);
+  const [visibleCount, setVisibleCount] = useState(12); // Pagination state
 
   // Briefly fade grid opacity while users adjust filters
   useEffect(() => {
     setIsTyping(true);
     const timer = setTimeout(() => setIsTyping(false), 250);
+    setVisibleCount(12); // Reset pagination on filter change
     return () => clearTimeout(timer);
   }, [searchTerm, budgetFilter, roomTypeFilter]);
 
@@ -39,7 +41,10 @@ const ListingsFilterGrid = ({ initialListings }) => {
     setSearchTerm('');
     setBudgetFilter('all');
     setRoomTypeFilter('all');
+    setVisibleCount(12);
   };
+
+  const displayedListings = filteredListings.slice(0, visibleCount);
 
   return (
     <div className="container mt-4 mb-5">
@@ -98,9 +103,9 @@ const ListingsFilterGrid = ({ initialListings }) => {
       </div>
 
       <div style={{ transition: 'opacity 0.2s', opacity: isTyping ? 0.4 : 1 }}>
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-4 g-4">
           
-          {filteredListings.length === 0 ? (
+          {displayedListings.length === 0 ? (
             <div className="col-12 py-5 text-center d-flex flex-column align-items-center justify-content-center" style={{ minHeight: '40vh' }}>
               <div 
                 className="d-flex align-items-center justify-content-center rounded-circle mb-4 shadow-sm" 
@@ -119,7 +124,7 @@ const ListingsFilterGrid = ({ initialListings }) => {
               </button>
             </div>
           ) : (
-            filteredListings.map(listing => (
+            displayedListings.map(listing => (
               <div className="col" key={listing._id}>
                 <a href={`/listings/${listing._id}`} className="text-decoration-none d-block h-100">
                   <div 
@@ -197,6 +202,25 @@ const ListingsFilterGrid = ({ initialListings }) => {
           )}
 
         </div>
+
+        {/* Load More Pagination */}
+        {visibleCount < filteredListings.length && (
+          <div className="text-center mt-5">
+            <button 
+              className="btn btn-outline-dark rounded-pill px-5 py-2 fw-bold shadow-sm"
+              onClick={() => setVisibleCount(prev => prev + 12)}
+              style={{ transition: 'all 0.2s', border: '2px solid #0f172a' }}
+              onMouseEnter={e => { e.target.style.backgroundColor = '#0f172a'; e.target.style.color = '#fff'; }}
+              onMouseLeave={e => { e.target.style.backgroundColor = 'transparent'; e.target.style.color = '#0f172a'; }}
+            >
+              Load More Rooms <i className="fa-solid fa-angle-down ms-2"></i>
+            </button>
+            <p className="text-muted mt-3 small">
+              Showing {displayedListings.length} of {filteredListings.length} rooms
+            </p>
+          </div>
+        )}
+
       </div>
     </div>
   );

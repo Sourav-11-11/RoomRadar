@@ -5,14 +5,6 @@ const { computeTrueMonthlyCost } = require("../utils/roomRadarMetrics.js");
 const mapboxToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapboxToken });
 
-// 4 Working Images - Use only these
-const WORKING_IMAGES = [
-  "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=500&auto=format&fit=crop&q=60",
-  "https://images.unsplash.com/photo-1493857671505-72967e2e2760?w=500&auto=format&fit=crop&q=60"
-];
-
 // PG-specific filter configuration mapped to Mongo query fragments and optional sorts.
 const FILTER_OPTIONS = {
   // Budget filters (based on true monthly cost = rent + electricity + maintenance)
@@ -194,12 +186,13 @@ module.exports.create = async (req, res, next) => {
     throw new ExpressError("Please enter a valid location", 400);
   }
 
-  let url = WORKING_IMAGES[Math.floor(Math.random() * WORKING_IMAGES.length)];
-  let filename = "default-listing-image";
-  if (req.file) {
-    url = req.file.path;
-    filename = req.file.filename;
+  if (!req.file) {
+    req.flash("error", "Valid image upload is mandatory for new listings.");
+    return res.redirect("/listings/new");
   }
+
+  let url = req.file.path;
+  let filename = req.file.filename;
 
   const { listing: incomingListing } = req.body;
   const newListing = new Listing({
