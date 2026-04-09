@@ -67,10 +67,16 @@
     </div>
     
     <!-- Add Review Section -->
-    <div class="mb-5">
+    <div class="mb-5" id="share-review-form">
       <hr class="my-4">
       <div class="card border-0 shadow-sm p-4" style="background: #fafafa;">
         <h4 class="mb-4 fw-semibold">Share Your Experience</h4>
+        <% if (!currentUser) { %>
+          <div class="alert alert-info mb-4" role="alert">
+            <i class="fa-solid fa-info-circle me-2"></i>
+            <strong>Want to share your stay?</strong> <a href="/login" class="alert-link">Login</a> or <a href="/signup" class="alert-link">Sign up</a> to write a review.
+          </div>
+        <% } else { %>
         <form action="/listings/<%= listing._id %>/reviews" method="POST" novalidate class="needs-validation">
           <div class="row g-3">
             <div class="col-md-6">
@@ -136,10 +142,10 @@
           </div>
           <button class="btn btn-dark rounded-pill px-4 py-2" style="font-weight: 500;">Submit Review</button>
         </form>
+        <% } %>
       </div>
 
       <!-- Reviews Display Section -->
-      
       <div class="mb-5 mt-4">
         <hr class="my-4">
         <h4 class="mt-0 mb-4">Reviews <span class="badge bg-dark rounded-pill"><%= listing.reviews.length %></span></h4>
@@ -183,7 +189,21 @@
           </div>
         <% } %>
       </div>
-      
+
+      <!-- Share Your Experience CTA Section (After Reviews) -->
+      <div class="mb-5 mt-5">
+        <hr class="my-4">
+        <div class="card border-0 shadow-sm p-5" style="background: linear-gradient(135deg, rgba(52,58,64,0.05) 0%, rgba(52,58,64,0.02) 100%); text-align: center;">
+          <h4 class="fw-bold mb-2">Have You Stayed Here?</h4>
+          <p class="text-muted fs-5 mb-4">Help other students find the perfect PG by sharing your experience</p>
+          <% if (!currentUser) { %>
+            <p class="text-muted mb-3">You need to be logged in to share your experience</p>
+            <a href="/login" class="btn btn-dark btn-lg rounded-pill px-5">Login to Share Review</a>
+          <% } else { %>
+            <a href="#share-review-form" class="btn btn-dark btn-lg rounded-pill px-5">Share Your Experience Now</a>
+          <% } %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

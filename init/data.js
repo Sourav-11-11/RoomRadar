@@ -13,7 +13,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "single",
     genderPreference: "unisex",
-    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Annupam Co Living PG",
@@ -29,7 +29,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "boys",
-    image: { url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Banjara Heights Women's PG",
@@ -45,7 +45,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "girls",
-    image: { url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Tech Nest Miyapur",
@@ -61,7 +61,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "single",
     genderPreference: "unisex",
-    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Finestay HITEC City",
@@ -77,7 +77,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "single",
     genderPreference: "unisex",
-    image: { url: "https://images.unsplash.com/photo-1506439773649-6e0eb8cfb237?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Madhav PG Madhapur",
@@ -93,7 +93,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "boys",
-    image: { url: "https://images.unsplash.com/photo-1615874959375-5d4c00ba1416?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Suresh PG Kondapur",
@@ -109,7 +109,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "girls",
-    image: { url: "https://images.unsplash.com/photo-1522708306214-c4b1b2915current?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Smart Living SR Nagar",
@@ -125,7 +125,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "triple",
     genderPreference: "boys",
-    image: { url: "https://images.unsplash.com/photo-1515221318891-4c4e40bb1bca?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Royal Palace Jubilee Hills",
@@ -141,7 +141,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "single",
     genderPreference: "unisex",
-    image: { url: "https://images.unsplash.com/photo-1631049307038-da8ec3ff3b68?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Scholar's Haven Kukatpally",
@@ -157,7 +157,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "triple",
     genderPreference: "girls",
-    image: { url: "https://images.unsplash.com/photo-1565182999555-b12d5eb38924?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Gachibowli Corporate Stay",
@@ -173,7 +173,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "boys",
-    image: { url: "https://images.unsplash.com/photo-1543269865-cbdf26cecbb1?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Ameerpet ColiveSpace",
@@ -189,7 +189,7 @@ const listings = [
     wifiAvailable: false,
     roomType: "triple",
     genderPreference: "unisex",
-    image: { url: "https://images.unsplash.com/photo-1455849318169-8e9e0f8c5e8a?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Kphb Friends Living",
@@ -205,7 +205,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "triple",
     genderPreference: "girls",
-    image: { url: "https://images.unsplash.com/photo-1540932549986-b8899649aad4?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   },
   {
     title: "Mehdipatnam Comfort Hub",
@@ -221,7 +221,7 @@ const listings = [
     wifiAvailable: true,
     roomType: "double",
     genderPreference: "boys",
-    image: { url: "https://images.unsplash.com/photo-1516132006556-38246b137277?auto=format&fit=crop&w=800&q=60", filename: "default-listing-image" }
+    image: { url: "https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&auto=format&fit=crop&q=60", filename: "default-listing-image" }
   }
 ];
 
