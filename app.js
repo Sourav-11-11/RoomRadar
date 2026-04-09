@@ -124,7 +124,6 @@ app.use((err, req, res, next) => {
   res.status(statusCode).render("error", { statusCode, message });
 });
 
-app.listen(5555, () => {
-    console.log("Server is running on port 5555")
-});
-
+const PORT = process.env.PORT || 5555;
+app.listen(PORT, () => {
+    console.log("Server is running on port", PORT)
