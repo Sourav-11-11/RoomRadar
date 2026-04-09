@@ -20,7 +20,8 @@
    
  "start": "node app.js",
   
-   
+ "build:react": "esbuild src/index.jsx --bundle --outfile=public/js/react-bundle.js --loader:.js=jsx --format=iife --target=es2020",
+  
  "test": "echo \"Error: no test specified\" && exit 1"
   
  },
@@ -94,6 +95,13 @@
   
    
  "react-dom": "^19.2.5"
+  
+ },
+  
+ "devDependencies": {
+  
+   
+ "esbuild": "^0.28.0"
   
  }
 }

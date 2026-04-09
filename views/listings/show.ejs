@@ -24,20 +24,7 @@
 
         <div class="row g-3">
           <div class="col-md-6">
-            <div class="border rounded p-3 h-100">
-              <h6 class="text-uppercase text-muted">True Monthly Cost</h6>
-              <ul class="list-unstyled mb-2">
-                <li>Rent: &#8377; <%= listing.price?.toLocaleString('en-IN') || 0 %></li>
-                <li>Electricity: &#8377; <%= listing.electricityCost?.toLocaleString('en-IN') || 0 %></li>
-                <li>Maintenance: &#8377; <%= listing.maintenanceCost?.toLocaleString('en-IN') || 0 %></li>
-                <% if (!listing.foodIncluded) { %>
-                  <li>Food (est.): Included in true cost calc</li>
-                <% } else { %>
-                  <li>Food: Included</li>
-                <% } %>
-              </ul>
-              <div class="fw-bold fs-5">True Monthly Cost: &#8377; <%= (listing.trueMonthlyCost || listing.price || 0).toLocaleString('en-IN') %></div>
-            </div>
+            <div id="react-cost-calculator" data-listing="<%= encodeURIComponent(JSON.stringify(listing)) %>"></div>
           </div>
           <div class="col-md-6">
             <div class="border rounded p-3 h-100">
@@ -66,7 +53,7 @@
       </div>
     </div>
     
-    <!-- Add Review Section -->
+    <!-- add review form -->
     <div class="mb-5" id="share-review-form">
       <hr class="my-4">
       <div class="card border-0 shadow-sm p-4" style="background: #fafafa;">
@@ -145,52 +132,14 @@
         <% } %>
       </div>
 
-      <!-- Reviews Display Section -->
-      <div class="mb-5 mt-4">
-        <hr class="my-4">
-        <h4 class="mt-0 mb-4">Reviews <span class="badge bg-dark rounded-pill"><%= listing.reviews.length %></span></h4>
-        <% if (listing.reviews.length === 0) { %>
-          <p class="text-muted fst-italic">No reviews yet. Be the first to review this listing!</p>
-        <% } else { %>
-          <div class="row mt-4">
-            <% for(let review of listing.reviews) { %>
-              <div class="col-md-6 mb-4">
-                <div class="card h-100 border-0 shadow-sm">
-                  <div class="card-body p-4">
-                    <div class="d-flex align-items-center mb-3">
-                      <div class="rounded-circle bg-dark text-white d-flex align-items-center justify-content-center me-3" style="width: 45px; height: 45px; font-size: 1.1rem; font-weight: 600;">
-                        <%= review.author ? review.author.username.charAt(0).toUpperCase() : "?" %>
-                      </div>
-                      <div class="flex-grow-1">
-                        <h6 class="mb-0 fw-semibold"><%= review.author ? review.author.username : "Anonymous User" %></h6>
-                        <% if (review.createdAt) { %>
-                          <small class="text-muted"><%= new Date(review.createdAt).toLocaleDateString('en-US', { month: 'short', year: 'numeric' }) %></small>
-                        <% } %>
-                      </div>
-                      <% if (currentUser && review.author && currentUser._id.equals(review.author._id)) { %>
-                        <form method="POST" action="/listings/<%= listing._id %>/reviews/<%= review._id %>?_method=DELETE" style="display:inline;">
-                          <button type="submit" class="btn btn-sm btn-outline-danger rounded-pill px-3">Delete</button>
-                        </form>
-                      <% } %>
-                    </div>
-                    <div class="d-flex flex-wrap gap-2 mb-2 small">
-                      <span class="badge bg-light text-dark">Food: <%= review.foodQuality || '-' %></span>
-                      <span class="badge bg-light text-dark">Cleanliness: <%= review.cleanliness || '-' %></span>
-                      <span class="badge bg-light text-dark">WiFi: <%= review.wifi || '-' %></span>
-                      <span class="badge bg-light text-dark">Noise: <%= review.noise || '-' %></span>
-                      <span class="badge bg-light text-dark">Safety: <%= review.safety || '-' %></span>
-                      <span class="badge bg-light text-dark">Owner: <%= review.ownerBehavior || '-' %></span>
-                    </div>
-                    <p class="card-text mb-0" style="font-size: 1rem; line-height: 1.7; color: #484848;"><%= review.comment %></p>
-                  </div>
-                </div>
-              </div>
-            <% } %>
-          </div>
-        <% } %>
+      <!-- react interactive reviews mount -->
+      <div id="react-interactive-reviews" 
+           data-listing-id="<%= listing._id %>"
+           data-current-user="<%= currentUser ? currentUser._id : '' %>"
+           data-reviews="<%= encodeURIComponent(JSON.stringify(listing.reviews)) %>">
       </div>
 
-      <!-- Share Your Experience CTA Section (After Reviews) -->
+      <!-- cta banner -->
       <div class="mb-5 mt-5">
         <hr class="my-4">
         <div class="card border-0 shadow-sm p-5" style="background: linear-gradient(135deg, rgba(52,58,64,0.05) 0%, rgba(52,58,64,0.02) 100%); text-align: center;">
@@ -223,4 +172,5 @@
 </div>
 
 <script src="/js/map.js"></script>
+<script src="/js/react-bundle.js"></script>
 
